@@ -41,7 +41,7 @@ var w = 1280 - 80,
     h = 800 - 180,
     x = d3.scale.linear().range([0, w]),
     y = d3.scale.linear().range([0, h]),
-    color = d3.scale.category20c(),
+    color = d3.scale.category20(),
     root,
     node;
 
@@ -63,6 +63,13 @@ var svg = d3.select("#body").append("div")
 
 d3.json("agencies.json", function(data) {
   node = root = data;
+
+  data.children = data.children.sort(function(a,b) {
+    var aTotal = 0, bTotal = 0;
+    for(var i=0; i<a.children.length; i++) { aTotal += a.children[i].size; }
+    for(var i=0; i<b.children.length; i++) { bTotal += b.children[i].size; }
+    return bTotal - aTotal;
+  })
 
   var nodes = treemap.nodes(root)
       .filter(function(d) { return !d.children; });
