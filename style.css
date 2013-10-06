@@ -1,11 +1,3 @@
-body {
-  background: url(texture-noise.png);
-  overflow: hidden;
-  margin: 0;
-  font-size: 14px;
-  font-family: "Helvetica Neue", Helvetica;
-}
-
 #chart, #header, #footer {
   position: absolute;
   top: 0;
