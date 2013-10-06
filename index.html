@@ -5,132 +5,205 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="style.css"/>
     <script type="text/javascript" src="d3/d3.js"></script>
-    <script type="text/javascript" src="d3/d3.layout.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+
+    <!--<script type="text/javascript" src="d3/d3.layout.js"></script>-->
     <style type="text/css">
 
-.chart {
-  display: block;
-  margin: auto;
-  margin-top: 40px;
-}
+        .chart {
+          display: block;
+          margin: auto;
+          margin-top: 40px;
+        }
 
-text {
-  font-size: 11px;
-}
+        text {
+            font-size: 13px;
+            fill: #777;
+            pointer-events: none;
+        }
 
-rect {
-  fill: none;
-}
+
+        rect {
+            fill: none;
+            cursor: pointer;
+            opacity: 0.4;
+        }
+        .parentCell.active rect {
+            opacity: 1;
+        }
+        .parentCell.active text {
+            fill: #f0f0f0;
+            text-shadow: 0px 1px 2px #444444;
+        }
+        g.cell {
+            cursor: pointer;
+        }
 
     </style>
   </head>
   <body>
     <div id="body">
-      <div id="footer">
-        d3.layout.treemap
-        <div class="hint">click or option-click to descend or ascend</div>
-        <div><select>
-          <option value="size">Size</option>
-          <option value="count">Count</option>
-        </select></div>
-      </div>
     </div>
     <script type="text/javascript">
+        var FurloughMap = function() {
+            _.bindAll(this, 'loadedData', 'zoom', 'abbrevText');
+            this.width = 1280 - 80;
+            this.height = 800 - 280;
+            this.xScale = d3.scale.linear().range([0, this.width]);
+            this.yScale = d3.scale.linear().range([0, this.height]);
 
-var w = 1280 - 80,
-    h = 800 - 180,
-    x = d3.scale.linear().range([0, w]),
-    y = d3.scale.linear().range([0, h]),
-    color = d3.scale.category20(),
-    root,
-    node;
+            this.treemap = d3.layout.treemap()
+                //.mode('slice-dice')
+                .padding(2)
+                .round(true)
+                .size([this.width, this.height])
+                //.sticky(true)
+                .value(function(d) { return d.size; })
+                .sort(function(a,b) {
+                    if(a.name.match('exempt')) { return 1; }
+                    else if(a.name.match('furloughed')) { return -1; }
+                    return a.value - b.value;
+                });
 
-var treemap = d3.layout.treemap()
-    .round(false)
-    .size([w, h])
-    .sticky(true)
-    .value(function(d) { return d.size; });
+            this.svg = d3.select("#body").append("div")
+                .attr("class", "chart")
+                .style({'width': this.width + 'px', 'height': this.height + 'px'})
+                .append("svg:svg")
+                .attr("width", this.width)
+                .attr("height", this.height)
+                .append("svg:g")
+                .attr("transform", "translate(.5,.5)");
 
-var svg = d3.select("#body").append("div")
-    .attr("class", "chart")
-    .style("width", w + "px")
-    .style("height", h + "px")
-  .append("svg:svg")
-    .attr("width", w)
-    .attr("height", h)
-  .append("svg:g")
-    .attr("transform", "translate(.5,.5)");
+            this.loadData();
+        };
 
-d3.json("agencies.json", function(data) {
-  node = root = data;
+        _.extend(FurloughMap.prototype, {
+            loadData: function() {
+                d3.json('agencies.json', this.loadedData);
+            },
 
-  data.children = data.children.sort(function(a,b) {
-    var aTotal = 0, bTotal = 0;
-    for(var i=0; i<a.children.length; i++) { aTotal += a.children[i].size; }
-    for(var i=0; i<b.children.length; i++) { bTotal += b.children[i].size; }
-    return bTotal - aTotal;
-  })
+            loadedData: function(data) {
+                this.node = data, this.root = data;
+                data.children = data.children.sort(function(a,b) {
+                    var aTotal = 0, bTotal = 0;
+                    for(var i=0; i<a.children.length; i++) { aTotal += a.children[i].size; }
+                    for(var i=0; i<b.children.length; i++) { bTotal += b.children[i].size; }
+                    return bTotal - aTotal;
+                });
 
-  var nodes = treemap.nodes(root)
-      .filter(function(d) { return !d.children; });
+                var nodes = this.treemap.nodes(this.root).filter(function(d) { return !d.children; });
+                var nodeParents = this.getParents(nodes);
+                //console.log(nodeParents);
 
-  var cell = svg.selectAll("g")
-      .data(nodes)
-    .enter().append("svg:g")
-      .attr("class", "cell")
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-      .on("click", function(d) { return zoom(node == d.parent ? root : d.parent); });
+                var parentCell = this.svg.selectAll('g.parentCell')
+                    .data(nodeParents)
+                    .enter().append("svg:g")
+                    .attr("class", "parentCell")
 
-  cell.append("svg:rect")
-      .attr("width", function(d) { return d.dx - 1; })
-      .attr("height", function(d) { return d.dy - 1; })
-      .style("fill", function(d) { return color(d.parent.name); });
+                var cell = this.svg.selectAll('g.parentCell').selectAll('g.cell')
+                    .data(function(d) { return d.children; })
+                    .enter().append('svg:g')
+                    .attr('class', 'cell')
+                    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+                    .on("click", _.bind(function(d) { return this.zoom(this.node == d.parent ? this.root : d.parent); }, this))
+                    .on('mouseover', function(d) {
+                        d3.select(this.parentNode).classed('active', true)
+                    })
+                    .on('mouseout', function(d) {
+                        d3.select(this.parentNode).classed('active', false)
+                    });
 
-  cell.append("svg:text")
-      .attr("x", function(d) { return d.dx / 2; })
-      .attr("y", function(d) { return d.dy / 2; })
-      .attr("dy", ".35em")
-      .attr("text-anchor", "middle")
-      .text(function(d) { return d.name; })
-      .style("opacity", function(d) { d.w = this.getComputedTextLength(); return d.dx > d.w ? 1 : 0; });
+                cell.append("svg:rect")
+                        .attr("width", function(d) { return d.dx - 0.5; })
+                        .attr("height", function(d) { return d.dy - 0.5; })
+                        .style("fill", function(d) {
+                            //return color(d.parent.name);
+                            if(d.name.match('exempt')) { return '#2fa3af'; }
+                            return '#bb4207';
+                        });
 
-  d3.select(window).on("click", function() { zoom(root); });
+                cellText = parentCell.append("svg:text")
+                    .attr('class', 'abbrevText')
+                    .attr("x", function(d) { return d.dx / 2; })
+                    .attr("y", function(d) { return d.dy / 2; })
+                    .attr("dy", ".35em")
+                    .attr("text-anchor", "middle")
+                    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+                    .text(function(d) { return d.name; })
+                cellText = this.abbrevText(cellText)
 
-  d3.select("select").on("change", function() {
-    treemap.value(this.value == "size" ? size : count).nodes(root);
-    zoom(node);
-  });
-});
+                parentCell.append("svg:text")
+                        .attr('class', 'fullText')
+                        .attr("x", function(d) { return d.dx / 2; })
+                        .attr("y", function(d) { return d.dy / 2; })
+                        .attr("dy", ".35em")
+                        .attr("text-anchor", "middle")
+                        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+                        .text(function(d) { return d.name; })
+                        .style("opacity", 0);
 
-function size(d) {
-  return d.size;
-}
+                d3.select(window).on("click", _.bind(function() { this.zoom(this.root); }, this));
+            },
+            getParents: function(nodes) {
+                var parentNames = {}, nodeParents = [];
+                for(var i= 0, len=nodes.length; i<len; i++) {
+                    if(!parentNames[nodes[i].parent.name]) {
+                        nodeParents.push(nodes[i].parent);
+                        parentNames[nodes[i].parent.name] = true;
+                    }
+                }
+                return nodeParents;
+            },
+            zoom: function(d) {
+                var kx = this.width / d.dx, ky = this.height / d.dy, x = this.xScale, y = this.yScale;
+                this.xScale.domain([d.x, d.x + d.dx]);
+                this.yScale.domain([d.y, d.y + d.dy]);
 
-function count(d) {
-  return 1;
-}
+                var t = this.svg.selectAll("g.cell").transition()
+                    .duration(d3.event.altKey ? 7500 : 750)
+                    .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
-function zoom(d) {
-  var kx = w / d.dx, ky = h / d.dy;
-  x.domain([d.x, d.x + d.dx]);
-  y.domain([d.y, d.y + d.dy]);
+                t.select("rect")
+                    .attr("width", function(d) { return kx * d.dx - 0.5; })
+                    .attr("height", function(d) { return ky * d.dy - 0.5; })
 
-  var t = svg.selectAll("g.cell").transition()
-      .duration(d3.event.altKey ? 7500 : 750)
-      .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+                var zoomDir = (d == this.root) ? 'out' : 'in';
+                this.svg.selectAll("g.parentCell").select("text.abbrevText")
+                        .transition()
+                        .duration(d3.event.altKey ? 7500 : 750)
+                        .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; })
+                        .attr("x", function(d) { return kx * d.dx / 2; })
+                        .attr("y", function(d) { return ky * d.dy / 2; })
+                        .style("opacity", function(d) { return zoomDir == 'out' ? 1 : 0; });
 
-  t.select("rect")
-      .attr("width", function(d) { return kx * d.dx - 1; })
-      .attr("height", function(d) { return ky * d.dy - 1; })
+                this.svg.selectAll("g.parentCell").select("text.fullText")
+                        .transition()
+                        .duration(d3.event.altKey ? 7500 : 750)
+                        .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; })
+                        .attr("x", function(d) { return kx * d.dx / 2; })
+                        .attr("y", function(d) { return ky * d.dy / 2; })
+                        .style("opacity", function(d) { return zoomDir == 'out' ? 0 : 1; });
 
-  t.select("text")
-      .attr("x", function(d) { return kx * d.dx / 2; })
-      .attr("y", function(d) { return ky * d.dy / 2; })
-      .style("opacity", function(d) { return kx * d.dx > d.w ? 1 : 0; });
+//                this.svg.selectAll("g.parentCell").select("text.fullText")
+//                        .transition()
+//                        .duration(d3.event.altKey ? 7500 : 750)
+//                        .style('opacity', 1);
 
-  node = d;
-  d3.event.stopPropagation();
-}
+                this.node = d;
+                d3.event.stopPropagation();
+            },
+            abbrevText: function(cellText) {
+                cellText
+                    //.filter(function(d) { return (this.getComputedTextLength() > d.dx); })
+                    .text(function(d) { return (d.abbreviations && d.abbreviations.length) ? d.abbreviations[0] : ''; })
+                    .filter(function(d) { return (this.getComputedTextLength() + 6 > d.dx); })
+                    .text(function(d) { return (d.abbreviations && d.abbreviations.length > 1) ? d.abbreviations[1] : ''; })
+                return cellText
+            }
+
+        });
+
+        window.furloughMap = new FurloughMap();
 
     </script>
   </body>

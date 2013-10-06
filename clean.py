@@ -2,6 +2,43 @@ from __future__ import print_function
 from pprint import pprint
 import csv, json
 
+#abbreviations = {
+#    'Department of Agriculture': ['Dept. of Agriculture', 'DOA'],
+#    'Department of Veterans Affairs': ['Dept. of Veterans Affairs', "VA"],
+#    'Department of Defense': ["Dept. of Defense", "DOD"],
+#    'Social Security Administration': ["Soc. Security Admin.", "SSA"],
+#    'Department of Homeland Security': ["Dept. Homeland Sec.", "DHS"],
+#    'National Aeronautics and Space Administration': ["NASA"],
+#    'Department of Interior': ["Dept. of Interior", "DOI"],
+#    'Department of Justice': ["Dept. of Justice", "DOJ"],
+#    'Department of Health and Human Services': ['Dept. Health & Human Services', 'HHS'],
+#    'Department of Transportation': ["Dept. of Transportation", "DOT"],
+#    'Department of Commerce': ["Dept. of Commerce", "DOC"],
+#    'Department of Labor': ["Dept. of Labor", "DOL"],
+#    'Environmental Protection Agency': ["EPA"],
+#    'Department of Energy': ["Dept. of Energy", "DOE"],
+#    'Department of Housing and Urban Development': ['Dept. Housing & Human Dev.', "HUD"]
+#}
+
+abbreviations = {
+    'Department of Agriculture': ['Agriculture', 'DOA'],
+    'Department of Veterans Affairs': ['Veterans Affairs', "VA"],
+    'Department of Defense': ["Defense", "DOD"],
+    'Social Security Administration': ["Social Security", "SSA"],
+    'Department of Homeland Security': ["Homeland Security", "DHS"],
+    'National Aeronautics and Space Administration': ["NASA"],
+    'Department of Interior': ["Interior", "DOI"],
+    'Department of Justice': ["Justice", "DOJ"],
+    'Department of Health and Human Services': ['Health', 'HHS'],
+    'Department of Transportation': ["Transportation", "DOT"],
+    'Department of Commerce': ["Commerce", "DOC"],
+    'Department of Labor': ["Labor", "DOL"],
+    'Environmental Protection Agency': ["EPA"],
+    'Department of Energy': ["Energy", "DOE"],
+    'Department of Housing and Urban Development': ['Housing', "HUD"],
+    'Securities and Exchange Commission': ['SEC']
+}
+
 def make_totals(agencies):
 	for agency_name in agencies:
 		agency = agencies[agency_name]
@@ -21,6 +58,12 @@ def make_totals(agencies):
 
 	return agencies
 
+def make_abbreviations(agencies):
+    for agency_name in agencies:
+    	if agency_name in abbreviations:
+    	    agencies[agency_name]['abbreviations'] = abbreviations[agency_name]
+    return agencies
+
 def jsonify_agencies(agencies):
 	agencies_json = {'name': 'agencies', 'children': []}
 
@@ -32,6 +75,9 @@ def jsonify_agencies(agencies):
 			if total_type == 'staff': continue
 			type_total = {'name': agency_name + ' ' + total_type, 'size': agency['total'][total_type]}
 			agency_json['children'].append(type_total)
+
+		if 'abbreviations' in agency:
+			agency_json['abbreviations'] = agency['abbreviations']
 
 		agencies_json['children'].append(agency_json)
 
@@ -48,7 +94,7 @@ def main():
 		for row in data_reader:
 			#print(' | '.join(row))
 			try:
-				agency_name = row[0]
+				agency_name = row[0].strip()
 				sub_agency = row[1]
 				staff = int(row[2])
 				exempt = int(row[8])
@@ -75,7 +121,9 @@ def main():
 
 	print("total furloughed: ", furloughed_total)
 	agencies = make_totals(agencies)
+	agencies = make_abbreviations(agencies)
 	agencies_json = jsonify_agencies(agencies)
+	#print(agencies_json)
 
 	agencies_file = open('agencies.json', 'w')
 	agencies_file.write(agencies_json + '\n')
