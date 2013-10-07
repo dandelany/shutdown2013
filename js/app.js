@@ -7,6 +7,14 @@ Shutdown2013.FurloughMap = function() {
     this.xScale = d3.scale.linear().range([0, this.width]);
     this.yScale = d3.scale.linear().range([0, this.height]);
 
+    this.legendText = [
+        {'key': 'furloughed', 'name': "Furloughed Employees"},
+        {'key': 'exempt_a', 'name': "Furlough-Exempt: Law enforcement, health & safety"},
+        {'key': 'exempt_b', 'name': "Furlough-Exempt: Financed from available funds"},
+        {'key': 'exempt_c', 'name': "Furlough-Exempt: Protecting life and property"},
+        {'key': 'exempt_d', 'name': "Furlough-Exempt: Other/Unknown"}
+    ];
+
     this.treemap = d3.layout.treemap()
         //.mode('slice-dice')
         .padding(1)
@@ -53,6 +61,8 @@ _.extend(Shutdown2013.FurloughMap.prototype, {
         $legend.find('.total-exempt').text((this.root.value - this.root.furloughed_total).commafy());
         $legend.find('.total-furloughed').text(this.root.furloughed_total.commafy());
 
+        this.makeBottomLegend();
+
         $('svg').on('mousemove', this.updateTip)
             .on('mouseenter', this.updateTip)
             .on('mouseleave', this.tip.hide);
@@ -97,6 +107,14 @@ _.extend(Shutdown2013.FurloughMap.prototype, {
             .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
             .text(function(d) { return d.name; })
         return this.abbrevText(cellText);
+    },
+    makeBottomLegend: function() {
+        var $legendBottom = $('#furlough-legend-bottom');
+
+        _(this.legendText).each(function(legendItem) {
+            $legendBottom.append('<span class="legend-bottom-item"><span class="swatch swatch-' + legendItem.key + '">' +
+                '</span><h6 class="' + legendItem.key +'">' + legendItem.name +'</h6></span>');
+        })
     },
     getParents: function(nodes) {
         var parentNames = {}, nodeParents = [];

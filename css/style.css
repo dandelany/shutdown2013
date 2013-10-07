@@ -54,6 +54,22 @@ rect.exempt_c { fill: #5abac5; }
 rect.exempt_d { fill: #82cad8; }
 rect.furloughed { fill: #bb4207;}
 
+#furlough-legend-bottom { width: 1200px; margin: 2px auto; text-align: center; }
+#furlough-legend-bottom .swatch { display: inline-block; width: 5px; height: 5px; margin: 1px 5px;}
+#furlough-legend-bottom .legend-bottom-item { display: inline-block; padding: 1px 5px; }
+#furlough-legend-bottom h6 { display: inline; }
+#furlough-legend-bottom .furloughed { color: #bb4207;}
+#furlough-legend-bottom .exempt_a { color: #2fa3af; }
+#furlough-legend-bottom .exempt_b { color: #4daab7; }
+#furlough-legend-bottom .exempt_c { color: #5abac5; }
+#furlough-legend-bottom .exempt_d { color: #82cad8; }
+#furlough-legend-bottom .swatch-furloughed { background: #bb4207;}
+#furlough-legend-bottom .swatch-exempt_a { background: #2fa3af; }
+#furlough-legend-bottom .swatch-exempt_b { background: #4daab7; }
+#furlough-legend-bottom .swatch-exempt_c { background: #5abac5; }
+#furlough-legend-bottom .swatch-exempt_d { background: #82cad8; }
+
+
 .parentCell.active rect {
     opacity: 1;
 }
