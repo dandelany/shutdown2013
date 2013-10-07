@@ -1,0 +1,93 @@
+body {
+    font-family: TisaWebPro, sans-serif;
+    background: #f7f9f9;
+}
+
+.chart {
+    display: block;
+    margin: auto;
+    margin-top: 40px;
+    position: relative;
+}
+
+text {
+    font-size: 13px;
+    fill: #777;
+    pointer-events: none;
+}
+
+
+rect {
+    fill: none;
+    cursor: pointer;
+    opacity: 0.4;
+}
+rect.exempt_a { fill: #2fa3af; }
+rect.exempt_b { fill: #4daab7; }
+rect.exempt_c { fill: #5abac5; }
+rect.exempt_d { fill: #82cad8; }
+rect.furloughed { fill: #bb4207;}
+
+.parentCell.active rect {
+    opacity: 1;
+}
+.parentCell.active text {
+    fill: #f0f0f0;
+    text-shadow: 0px 1px 2px #444444;
+}
+g.cell {
+    cursor: pointer;
+}
+
+#header {
+    text-align: center;
+}
+h1 {
+    display: inline-block;
+    font-family: TisaSCWebPro, sans-serif;
+    text-transform: lowercase;
+    font-size: 36px;
+    font-weight: 200;
+    color: #6a6b6b;
+    padding: 10px;
+    border: 4px solid #e0e0e0;
+    margin: 10px;
+}
+h2 {
+    display: block;
+    font-family: TisaSCWebPro, sans-serif;
+    text-transform: lowercase;
+    font-size: 28px;
+    font-weight: 200;
+    color: #6a6b6b;
+    margin: 10px;
+}
+div.tooltip {
+    display: inline-block;
+    position: absolute;
+    padding: 10px;
+    background: white;
+    border-radius: 3px;
+    pointer-events: none;
+    width: 200px;
+    box-shadow: 0px 0px 5px #888;
+}
+div.agency-details {
+    display: none;
+    position: absolute;
+    bottom: 40px;
+    width: 300px;
+    background: white;
+    border-radius: 3px;
+    pointer-events: none;
+}
+
+ul.services {
+    column-count: 5;
+    -webkit-column-count: 5;
+    -moz-column-count: 5;
+}
+ul.services li {  line-height: 28px; }
+ul.services li.halted { color: #911801; }
+ul.services li.risk { color: #e46a0c; }
+ul.services li.ok { color: #2fa3af; }

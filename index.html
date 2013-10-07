@@ -3,116 +3,40 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <!--<link type="text/css" rel="stylesheet" href="style.css"/>-->
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="css/fonts.css"/>
       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
 
     <script type="text/javascript" src="d3/d3.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-    <!--<script type="text/javascript" src="d3/d3.layout.js"></script>-->
-    <style type="text/css">
-
-        body {
-            font-family: TisaWebPro, sans-serif;
-            background: #f7f9f9;
-        }
-
-        .chart {
-          display: block;
-          margin: auto;
-          margin-top: 40px;
-          position: relative;
-        }
-
-        text {
-            font-size: 13px;
-            fill: #777;
-            pointer-events: none;
-        }
-
-
-        rect {
-            fill: none;
-            cursor: pointer;
-            opacity: 0.4;
-        }
-        .parentCell.active rect {
-            opacity: 1;
-        }
-        .parentCell.active text {
-            fill: #f0f0f0;
-            text-shadow: 0px 1px 2px #444444;
-        }
-        g.cell {
-            cursor: pointer;
-        }
-
-        #header {
-            text-align: center;
-        }
-        h1 {
-            display: inline-block;
-            font-family: TisaSCWebPro, sans-serif;
-            text-transform: lowercase;
-            font-size: 36px;
-            font-weight: 200;
-            color: #6a6b6b;
-            padding: 10px;
-            border: 4px solid #e0e0e0;
-            margin: 10px;
-        }
-        h2 {
-            display: block;
-            font-family: TisaSCWebPro, sans-serif;
-            text-transform: lowercase;
-            font-size: 28px;
-            font-weight: 200;
-            color: #6a6b6b;
-            margin: 10px;
-        }
-        div.tooltip {
-            display: inline-block;
-            position: absolute;
-            padding: 10px;
-            background: white;
-            border-radius: 3px;
-            pointer-events: none;
-            width: 200px;
-        }
-        div.agency-details {
-            display: none;
-            position: absolute;
-            bottom: 40px;
-            width: 300px;
-            background: white;
-            border-radius: 3px;
-            pointer-events: none;
-        }
-
-    </style>
   </head>
   <body>
     <div id="body">
         <div id="header">
             <h1>Government Shutdown 2013</h1>
-            <h2 class="shutdown-duration">duration:</h2>
+            <h2 id="shutdown-duration">duration:</h2>
+            <h2 id="unpaid-salary">est. unpaid salary:</h2>
+            <h2 id="food-vouchers">WIC Food Vouchers Unpaid:</h2>
         </div>
+        <h2>Government Services Affected</h2>
+        <div id="services-container"></div>
+
+        <h2>Furloughed Employees by Department</h2>
+        <div id="furlough-map-container"></div>
+
     </div>
+    <div class="tooltip"></div>
+
     <script type="text/javascript">
-        var loadFonts = function() {
-            WebFont.load({
-                custom: {
-                    families: ['TisaWebPro', 'TisaSCWebPro'],
-                    urls: ['../../fonts/fonts.css']
-                },
-                fontactive: function(fontFamily, fontDescription) {
-                    $(window).resize();
-                }
+        String.prototype.commafy = function () {
+            return this.replace(/(^|[^\w.])(\d{4,})/g, function($0, $1, $2) {
+                return $1 + $2.replace(/\d(?=(?:\d\d\d)+(?!\d))/g, "$&,");
             });
         };
-
-        loadFonts();
+        Number.prototype.commafy = function () {
+            return String(this).commafy();
+        };
 
         var FurloughMap = function() {
             _.bindAll(this, 'loadedData', 'zoom', 'abbrevText');
@@ -134,7 +58,7 @@
                     return a.value - b.value;
                 });
 
-            this.svg = d3.select("#body").append("div")
+            this.svg = d3.select("#furlough-map-container").append("div")
                 .attr("class", "chart")
                 .style({'width': this.width + 'px', 'height': this.height + 'px'})
                 .append("svg:svg")
@@ -150,7 +74,7 @@
 
         _.extend(FurloughMap.prototype, {
             loadData: function() {
-                d3.json('agencies.json', this.loadedData);
+                d3.json('data/agencies.json', this.loadedData);
             },
 
             loadedData: function(data) {
@@ -189,13 +113,9 @@
                     });
 
                 cell.append("svg:rect")
-                        .attr("width", function(d) { return d.dx - 0.5; })
-                        .attr("height", function(d) { return d.dy - 0.5; })
-                        .style("fill", function(d) {
-                            //return color(d.parent.name);
-                            if(d.name.match('exempt')) { return '#2fa3af'; }
-                            return '#bb4207';
-                        });
+                    .attr("width", function(d) { return d.dx; })
+                    .attr("height", function(d) { return d.dy; })
+                    .attr('class', function(d) { return d.name; });
 
                 cellText = parentCell.append("svg:text")
                     .attr('class', 'abbrevText')
@@ -208,16 +128,16 @@
                 cellText = this.abbrevText(cellText)
 
                 parentCell.append("svg:text")
-                        .attr('class', 'fullText')
-                        .attr("x", function(d) { return d.dx / 2; })
-                        .attr("y", function(d) { return d.dy / 2; })
-                        .attr("dy", ".35em")
-                        .attr("text-anchor", "middle")
-                        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-                        .text(function(d) { return d.name; })
-                        .style("opacity", 0);
+                    .attr('class', 'fullText')
+                    .attr("x", function(d) { return d.dx / 2; })
+                    .attr("y", function(d) { return d.dy / 2; })
+                    .attr("dy", ".35em")
+                    .attr("text-anchor", "middle")
+                    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+                    .text(function(d) { return d.name; })
+                    .style("opacity", 0);
 
-                this.$tip = $('<div class="tooltip"></div>').appendTo('body');
+                this.$tip = $('div.tooltip')
                 $('svg').on('mousemove', _.bind(this.makeTooltip, this))
                         .on('mouseleave', _.bind(function() { this.$tip.hide();}, this))
                         .on('mouseenter', _.bind(function() { this.$tip.show();}, this));
@@ -245,8 +165,8 @@
                     .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
                 t.select("rect")
-                    .attr("width", function(d) { return kx * d.dx - 0.5; })
-                    .attr("height", function(d) { return ky * d.dy - 0.5; })
+                    .attr("width", function(d) { return kx * d.dx; })
+                    .attr("height", function(d) { return ky * d.dy; })
 
                 var zoomDir = (d == this.root) ? 'out' : 'in';
                 this.svg.selectAll("g.parentCell").select("text.abbrevText")
@@ -265,17 +185,10 @@
                         .attr("y", function(d) { return ky * d.dy / 2; })
                         .style("opacity", function(d) { return zoomDir == 'out' ? 0 : 1; });
 
-//                this.svg.selectAll("g.parentCell").select("text.fullText")
-//                        .transition()
-//                        .duration(d3.event.altKey ? 7500 : 750)
-//                        .style('opacity', 1);
-                //(this.zoomDir == 'in') ? this.$details.show() : this.$details.hide();
-                console.log(d);
                 if(zoomDir == 'in') {
                     this.$details.text(d.name).css({left: (this.width / 2) - 150});
                     this.$details.show();
                 } else { this.$details.hide(); }
-
 
                 this.node = d;
                 d3.event.stopPropagation();
@@ -288,7 +201,7 @@
                     .text(function(d) { return (d.abbreviations && d.abbreviations.length > 1) ? d.abbreviations[1] : ''; })
                 return cellText
             },
-            makeTooltip: function(e,a,b) {
+            makeTooltip: function(e) {
                 if(e.target != this.prevTarget) {
                     this.prevTarget = e.target;
                     var $target = $(e.target), $agency = $target.parents('g.parentCell');
@@ -296,29 +209,133 @@
                     var nodeData = $agency.data();
                     console.log(nodeData);
                     this.$tip.html(agencyName + "<br />" + nodeData.staff);
-
                 }
 
-                this.$tip.css({top: e.pageY - 80, left: e.pageX - 100})
+                var tipLeft = Math.max(e.pageX - 100, 20);
+                this.$tip.css({top: e.pageY - 80, left: tipLeft})
             }
 
         });
 
+        Shutdown2013 = {};
+        Shutdown2013.SERVICES = [
+            { 'name': "WIC Food Program", 'status': "halted",
+                'description': "WIC Program is not distributing food or formula vouchers for low-income mothers and infants. WIC normally provides supplemental food to 8.9 million mothers and children in the lowest income brackets."
+            },
+            { 'name': "Small Business Loans", 'status': "halted",
+                'description': "U.S. Small Business Administration is not processing new loan requests."
+            },
+            { 'name': "NIH Research", 'status': "halted",
+                'description': "The National Institutes of Health will continue to treat patients at its hospital center, but no new clinical trials will begin."
+            },
+            { 'name': "Parks & Monuments", 'status': "halted",
+                'description': "National parks and monuments are closed, including the Grand Canyon, Yosemite, the National Mall and the Statue of Liberty."
+            },
+            { 'name': "Museums", 'status': "halted",
+              'description': "The animals at the National Zoo are being cared for, but the zoo, like all Smithsonian museums, is closed to the public."
+            },
 
+            { 'name': "Courts", 'status': "risk",
+                'description': "Federal courts will operate normally for around 10 business days. After that the judiciary would begin furloughs of some employees. Cases would be heard, but at a slower rate."
+            },
+            { 'name': "Disease Control", 'status': "risk",
+                'description': "The Centers for Disease Control and Prevention are facing a reduced ability to detect and investigate disease outbreaks. Flu shot program has been halted."
+            },
+
+            { 'name': "Active Military", 'status': "ok",
+              'description': "Active military will continue serving."
+            },
+            { 'name': "Postal Service", 'status': "ok",
+              'description': "The U.S. Postal Service will keep delivering mail."
+            },
+            { 'name': "Social Security", 'status': "ok",
+              'description': "Social Security beneficiaries will continue receiving checks."
+            },
+            { 'name': "Air Traffic", 'status': "ok",
+              'description': "Air traffic controllers, prison guards, and border patrol agents will remain on the job."
+            },
+            { 'name': "Prisons", 'status': "ok",
+              'description': "Air traffic controllers, prison guards, and border patrol agents will remain on the job."
+            },
+            { 'name': "Border Patrol", 'status': "ok",
+              'description': "Air traffic controllers, prison guards, and border patrol agents will remain on the job."
+            },
+            { 'name': "Astronauts", 'status': "ok",
+              'description': "NASA Mission Control will continue supporting astronauts serving on the Space Station. But 97% of NASA employees have been furloughed without pay."
+            }
+
+        ];
+
+        var ServiceList = function(services) {
+            this.services = services || Shutdown2013.SERVICES;
+            this.$tip = $('.tooltip');
+            _.bindAll(this, 'updateTip');
+            this.render();
+            return this;
+        };
+        _.extend(ServiceList.prototype, {
+            render: function($container) {
+                if(!$container) { $container = $('#services-container'); }
+                var $servicesUl = $("<ul class='services'></ul>"), serviceItems = []
+                serviceItems = _(this.services).map(function(service) {
+                    return $('<li></li>')
+                        .addClass('service ' + service.status)
+                        .text(service.name)
+                        .data('description', service.description);
+//                    return ["<li class='service ", service.status, "'>", service.name, "</li>"].join('')
+                })
+                $container.html($servicesUl.html(serviceItems));
+                $servicesUl.on('mousemove', this.updateTip)
+                    .on('mouseleave', _.bind(function() { this.$tip.hide();}, this))
+                    .on('mouseenter', _.bind(function() { this.$tip.show();}, this));
+            },
+            updateTip: function(e) {
+                if(e.target != this.prevTarget) {
+                    this.prevTarget = e.target;
+                    var $target = $(e.target), description = $target.data('description');
+                    this.$tip.text(description);
+                }
+                this.$tip.css({top: e.pageY - 80, left: e.pageX - 100})
+            }
+        });
+
+        Shutdown2013.AVG_SALARY = 78673; // avg of base salary column from Asbury Park datset http://php.app.com/fed_employees12/search.php
+        Shutdown2013.WIC_FOOD_COST_2012 = 4808604963; // http://web.archive.org/web/20130705090557/http://www.fns.usda.gov/pd/24wicfood$.htm
+
+        var StatsClock = function() {
+            this.$duration = $('#shutdown-duration');
+            this.$unpaid = $('#unpaid-salary');
+            this.$food = $('#food-vouchers')
+            this.beginDate = new Date(2013, 9, 1);
+            setInterval(_.bind(this.update, this), 1000);
+        };
+        _.extend(StatsClock.prototype, {
+            update: function() {
+                var now = new Date(),
+                    dT = Math.floor((now - this.beginDate) / 1000),
+                    d = Math.floor(dT / (60 * 60 * 24)),
+                    h = Math.floor(dT / (60 * 60)) - (d * 24),
+                    m = Math.floor(dT / 60) - ((d * 24 * 60) + (h * 60)),
+                    s = dT - ((d * 24 * 60 * 60) + (h * 60 * 60) + (m * 60)),
+                    foodUnpaid = Math.floor((Shutdown2013.WIC_FOOD_COST_2012 / (365.25 * 24 * 60 * 60)) * dT);
+                this.$duration.text('duration - ' + d + 'd : ' + h + 'h : ' + m + 'm : ' + s + 's');
+
+                this.$food.text("WIC Food Vouchers Unpaid: $" + foodUnpaid.commafy());
+
+                if(Shutdown2013.furloughMap.root.furloughed_total) {
+                    var furloughed = Shutdown2013.furloughMap.root.furloughed_total,
+                        avgSalary = Shutdown2013.AVG_SALARY,
+                        furlSalaryPerS = (avgSalary * furloughed) / (365.25 * 24 * 60 * 60),
+                        furlSalary = Math.floor(furlSalaryPerS * dT);
+                    this.$unpaid.text('est. unpaid salary: $' + furlSalary.commafy());
+                }
+            }
+        })
 
         $(function() {
-            window.furloughMap = new FurloughMap();
-
-            var updateClock = function() {
-                var shutdownBegan = new Date(2013, 9, 1), now = new Date();
-                var dT = now - shutdownBegan, d = Math.floor(dT / (1000 * 60 * 60 * 24)),
-                        h = Math.floor(dT / (1000 * 60 * 60)) - (d * 24),
-                        m = Math.floor(dT / (1000 * 60)) - ((d * 24 * 60) + (h * 60)),
-                        s = Math.floor(dT / 1000) - ((d * 24 * 60 * 60) + (h * 60 * 60) + (m * 60));
-                $('h2.shutdown-duration').text('duration: ' + d + 'd:' + h + 'h:' + m + 'm:' + s + 's');
-            }
-            setInterval(updateClock, 1000);
-
+            Shutdown2013.furloughMap = new FurloughMap();
+            Shutdown2013.serviceList = new ServiceList();
+            Shutdown2013.statsClock = new StatsClock();
         })
 
     </script>

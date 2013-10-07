@@ -45,13 +45,16 @@ def make_totals(agencies):
 
 		if 'total' not in agency:
 			#print("NO TOTAL!", agency_name)
-			total = {'staff': 0, 'furloughed': 0, 'exempt': 0}
+			total = {'staff': 0, 'furloughed': 0, 'exempt_a': 0, 'exempt_b': 0, 'exempt_c': 0, 'exempt_d': 0}
 
 			for sub_agency_name in agency['sub_agencies']:
 				sub_agency = agency['sub_agencies'][sub_agency_name]
 				total['staff'] += sub_agency['staff']
 				total['furloughed'] += sub_agency['furloughed']
-				total['exempt'] += sub_agency['exempt']
+				total['exempt_a'] += sub_agency['exempt_a']
+				total['exempt_b'] += sub_agency['exempt_b']
+				total['exempt_c'] += sub_agency['exempt_c']
+				total['exempt_d'] += sub_agency['exempt_d']
 
 			#pprint(total)
 			agency['total'] = total
@@ -64,7 +67,7 @@ def make_abbreviations(agencies):
     	    agencies[agency_name]['abbreviations'] = abbreviations[agency_name]
     return agencies
 
-def jsonify_agencies(agencies):
+def jsonify_agencies(agencies, furloughed_total):
 	agencies_json = {'name': 'agencies', 'children': []}
 
 	for agency_name in agencies:
@@ -73,7 +76,7 @@ def jsonify_agencies(agencies):
 
 		for total_type in agency['total']:
 			if total_type == 'staff': continue
-			type_total = {'name': agency_name + ' ' + total_type, 'size': agency['total'][total_type]}
+			type_total = {'name': total_type, 'size': agency['total'][total_type]}
 			agency_json['children'].append(type_total)
 
 		if 'abbreviations' in agency:
@@ -81,10 +84,11 @@ def jsonify_agencies(agencies):
 
 		agencies_json['children'].append(agency_json)
 
+	agencies_json['furloughed_total'] = furloughed_total
 	return json.dumps(agencies_json)
 
 def main():
-	with open('furloughs.csv', 'rb') as csv_file:
+	with open('data/furloughs.csv', 'rb') as csv_file:
 		data_reader = csv.reader(csv_file)
 		data_reader = data_reader
 		furloughed_total = 0
@@ -98,6 +102,10 @@ def main():
 				sub_agency = row[1]
 				staff = int(row[2])
 				exempt = int(row[8])
+				exempt_a = int(row[4] or 0)
+				exempt_b = int(row[5] or 0)
+				exempt_c = int(row[6] or 0)
+				exempt_d = int(row[7] or 0)
 				furloughed = staff - exempt
 				furloughed_total += furloughed
 
@@ -108,7 +116,7 @@ def main():
 					agencies[agency_name]['name'] = agency_name
 					agencies[agency_name]['sub_agencies'] = {}
 
-				staff_data = {'staff': staff, 'furloughed': furloughed, 'exempt': exempt}
+				staff_data = {'staff': staff, 'furloughed': furloughed, 'exempt_a': exempt_a, 'exempt_b': exempt_b, 'exempt_c': exempt_c, 'exempt_d': exempt_d};
 				if is_total:
 					agencies[agency_name]['total'] = staff_data
 				else:
@@ -122,10 +130,11 @@ def main():
 	print("total furloughed: ", furloughed_total)
 	agencies = make_totals(agencies)
 	agencies = make_abbreviations(agencies)
-	agencies_json = jsonify_agencies(agencies)
+	#agencies['total_furloughed'] = furloughed_total
+	agencies_json = jsonify_agencies(agencies, furloughed_total)
 	#print(agencies_json)
 
-	agencies_file = open('agencies.json', 'w')
+	agencies_file = open('data/agencies.json', 'w')
 	agencies_file.write(agencies_json + '\n')
 	agencies_file.close()
 
