@@ -36,7 +36,9 @@ abbreviations = {
     'Environmental Protection Agency': ["EPA"],
     'Department of Energy': ["Energy", "DOE"],
     'Department of Housing and Urban Development': ['Housing', "HUD"],
-    'Securities and Exchange Commission': ['SEC']
+    'Securities and Exchange Commission': ['SEC'],
+    'National Science Foundation': ["Science", "NSF"],
+    'National Archives': ['Archives', "NA"]
 }
 
 def make_totals(agencies):
@@ -82,6 +84,8 @@ def jsonify_agencies(agencies, furloughed_total):
 		if 'abbreviations' in agency:
 			agency_json['abbreviations'] = agency['abbreviations']
 
+		agency_json['furloughed_total'] = agency['total']['furloughed']
+		agency_json['exempt_total'] = agency['total']['exempt_a'] + agency['total']['exempt_b'] + agency['total']['exempt_c'] + agency['total']['exempt_d']
 		agencies_json['children'].append(agency_json)
 
 	agencies_json['furloughed_total'] = furloughed_total

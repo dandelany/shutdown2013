@@ -25,6 +25,9 @@ Shutdown2013.SERVICES = [ // Sourced from various media outlets and USA.gov shut
     { 'name': "Disease Control", 'status': "risk",
         'description': "The Centers for Disease Control and Prevention are facing a reduced ability to detect and investigate disease outbreaks. Flu shot program has been halted."
     },
+    { 'name': "Space Program", 'status': "risk",
+        'description': "NASA Mission Control will continue supporting astronauts serving on the Space Station. But 97% of NASA employees have been furloughed without pay."
+    },
 
     { 'name': "Active Military", 'status': "ok",
         'description': "Active military will continue serving."
@@ -43,9 +46,6 @@ Shutdown2013.SERVICES = [ // Sourced from various media outlets and USA.gov shut
     },
     { 'name': "Border Patrol", 'status': "ok",
         'description': "Air traffic controllers, prison guards, and border patrol agents will remain on the job."
-    },
-    { 'name': "Astronauts", 'status': "ok",
-        'description': "NASA Mission Control will continue supporting astronauts serving on the Space Station. But 97% of NASA employees have been furloughed without pay."
     }
 ];
 
