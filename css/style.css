@@ -19,6 +19,7 @@ div#logo {
     color: #888888;
     margin: 0px;
     margin-top: -20px;
+    text-transform: lowercase;
 }
 #logo .twitter-link a {
     color: #888888;
@@ -199,9 +200,13 @@ div#services-container {
 
 #about-section {
     width: 400px;
-    padding: 10px;
+    padding: 20px 32px;
     font-size: 14px;
 }
+#about-section a {
+    color: #666;
+}
+#about-section p { margin: 0; }
 
 .text-red { color: #911801; }
 .text-orange { color: #e46a0c; }

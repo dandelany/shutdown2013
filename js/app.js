@@ -153,7 +153,6 @@ _.extend(Shutdown2013.FurloughMap.prototype, {
         $staffCount.last().text(d.furloughed_total.commafy());
 
         $details.css({left: (this.width / 2) - 150});
-        console.log(d);
         return this;
     },
     abbrevText: function(cellText) {
@@ -168,6 +167,7 @@ _.extend(Shutdown2013.FurloughMap.prototype, {
     updateTip: function(e) {
         if(this.zoomed) {
             this.tip.hide();
+
         } else {
             if(e.target != this.prevTarget) {
                 this.prevTarget = e.target;
@@ -229,7 +229,6 @@ _.extend(Shutdown2013.ServiceList.prototype, {
     },
     updateTip: function(e) {
         if(e.target != this.prevTarget) {
-            //console.log
             if(e.target.tagName != 'LI') { this.tip.hide(); return; }
             this.prevTarget = e.target;
             var $target = $(e.target), description = $target.data('description');
