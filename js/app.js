@@ -31,15 +31,15 @@ Shutdown2013.FurloughMap = function() {
 
     this.$details = $('<div class="agency-details"></div>').appendTo('.chart')
 
-    this.loadData();
+    this.loadedData();
 };
 _.extend(Shutdown2013.FurloughMap.prototype, {
     loadData: function() {
-        d3.json('data/agencies.json', this.loadedData);
+        //d3.json('data/agencies.json', this.loadedData);
     },
 
     loadedData: function(data) {
-
+        data = data || Shutdown2013.AGENCIES;
         this.node = data, this.root = data;
         data.children = data.children.sort(function(a,b) {
             var aTotal = 0, bTotal = 0;

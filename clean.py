@@ -134,8 +134,8 @@ def main():
 	agencies_json = jsonify_agencies(agencies, furloughed_total)
 	#print(agencies_json)
 
-	agencies_file = open('data/agencies.json', 'w')
-	agencies_file.write(agencies_json + '\n')
+	agencies_file = open('data/agencies.js', 'w')
+	agencies_file.write('Shutdown2013.AGENCIES = ' + agencies_json + ';\n')
 	agencies_file.close()
 
 
