@@ -191,26 +191,46 @@ Shutdown2013.ServiceList = function(services) {
     this.services = services || Shutdown2013.SERVICES;
     this.tip = new Shutdown2013.Tooltip();
     _.bindAll(this, 'updateTip');
+    this.$container = $('#services-container');
+    this.containers = {
+        '$ok': this.$container.find('#services-ok'),
+        '$risk': this.$container.find('#services-risk'),
+        '$halted': this.$container.find('#services-halted')
+    };
     this.render();
     return this;
 };
 _.extend(Shutdown2013.ServiceList.prototype, {
     render: function($container) {
         if(!$container) { $container = $('#services-container'); }
-        var $servicesUl = $("<ul class='services'></ul>"), serviceItems = []
-        serviceItems = _(this.services).map(function(service) {
-            return $('<li></li>')
+        //var $servicesUl = $("<ul class='services'></ul>"), serviceItems = []
+//        serviceItems = _(this.services).map(function(service) {
+//            return $('<li></li>')
+//                .addClass('service ' + service.status)
+//                .text(service.name)
+//                .data('description', service.description);
+//        });
+        serviceItems = _(this.services).map(_.bind(function(service) {
+            var li = $('<li></li>')
                 .addClass('service ' + service.status)
                 .text(service.name)
                 .data('description', service.description);
-        });
-        $container.html($servicesUl.html(serviceItems));
-        $servicesUl.on('mousemove', this.updateTip)
+
+            if(this.containers['$' + service.status]) {
+                this.containers['$' + service.status].append(li);
+            }
+            return li;
+        }, this));
+        //$container.html($servicesUl.html(serviceItems));
+
+        this.$container.on('mousemove', this.updateTip)
             .on('mouseenter', this.updateTip)
             .on('mouseleave', _.bind(function() { this.tip.hide();}, this));
     },
     updateTip: function(e) {
         if(e.target != this.prevTarget) {
+            //console.log
+            if(e.target.tagName != 'LI') { this.tip.hide(); return; }
             this.prevTarget = e.target;
             var $target = $(e.target), description = $target.data('description');
             this.tip.text(description);

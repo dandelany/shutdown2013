@@ -18,52 +18,87 @@
   </head>
   <body>
     <div id="body">
-        <div id="header">
-            <h1>Government Shutdown 2013</h1>
-
-            <!--<h2 id="shutdown-duration">duration:</h2>-->
-            <!--<h2 id="unpaid-salary">est. unpaid salary:</h2>-->
-            <!--<h2 id="food-vouchers">WIC Food Vouchers Unpaid:</h2>-->
+        <div id="logo">
+            <a href="http://enigma.io" title="Enigma Technologies"><img src="http://d1j79iwppmhf29.cloudfront.net/img/logo_enigma.png" alt="Enigma Logo" width="140" height="60" border="0"/></a>
+            <div class="twitter-link"><a href="https://twitter.com/enigma_io">Follow us on Twitter</a></div>
         </div>
-        <table id="shutdown-stats"><tbody><tr>
-            <td width="33%">
-                <h2 id="shutdown-duration"></h2>
-                <h6>Duration</h6>
-            </td>
-            <td width="33%">
-                <h2 id="unpaid-salary"></h2>
-                <h6>Est. Unpaid Salary</h6>
-            </td>
-            <td width="33%">
-                <h2 id="food-vouchers"></h2>
-                <h6>WIC Food Vouchers Unpaid</h6>
-            </td>
-        </tr></tbody></table>
 
-        <h2>Furloughed Employees by Department</h2>
-        <h6 id="furlough-map-legend"><span class="total-employees"></span> Total Civilian Employees,
-            <span class="text-red"><span class="total-furloughed"></span> Total Furloughed, </span>
-            <span class="text-green"><span class="total-exempt"></span> Total Exempt</span>
-        </h6>
-        <div id="furlough-map-container">
-            <div class="chart">
-                <div class="agency-details">
-                    <h3></h3>
-                    <table><tbody>
+        <div id="header" class="double-border">
+            <h1>Government Shutdown 2013</h1>
+        </div>
+
+        <div class="section">
+            <h4>In Real Time</h4>
+            <table id="shutdown-stats" class="double-border"><tbody><tr>
+                <td width="33%">
+                    <h2 id="shutdown-duration">loading...</h2>
+                    <h6 class="text-gray">Duration</h6>
+                </td>
+                <td width="33%">
+                    <h2 id="unpaid-salary">loading...</h2>
+                    <h6 class="text-gray">Est. Unpaid Salary</h6>
+                </td>
+                <td width="33%">
+                    <h2 id="food-vouchers">loading...</h2>
+                    <h6 class="text-gray">Est. WIC Food Vouchers Unpaid</h6>
+                </td>
+            </tr></tbody></table>
+        </div>
+
+        <div class="section">
+            <h4>Government Employees</h4>
+            <table id="furlough-map-legend" class="double-border"><tbody><tr>
+                <td width="33%">
+                    <h2 class="total-employees"></h2>
+                    <h6 class="text-gray">Total Civilian Employees</h6>
+                </td>
+                <td width="33%">
+                    <h2 class="total-furloughed text-red"></h2>
+                    <h6 class="text-gray">Total Furloughed</h6>
+                </td>
+                <td width="33%">
+                    <h2 class="total-exempt text-green"></h2>
+                    <h6 class="text-gray">Total Exempt</h6>
+                </td>
+            </tr></tbody></table>
+        </div>
+
+        <div class="section">
+            <h4>Furloughed Employees by Department</h4>
+            <div id="furlough-map-container">
+                <div class="chart">
+                    <div class="agency-details">
+                        <h3></h3>
+                        <table><tbody>
                         <tr class="agency-staff-percent"><td></td><td></td></tr>
                         <tr class="details-separator">
                             <td><h6 class="text-green">Exempt</h6></td>
                             <td><h6 class="text-red">Furloughed</h6></td>
                         </tr>
                         <tr class="agency-staff-count"><td></td><td></td></tr>
-                    </tbody></table>
+                        </tbody></table>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <h2>Government Services Affected</h2>
-        <div id="services-container"></div>
+        <div class="section">
+            <h4>Government Services Affected</h4>
+            <div id="services-container" class="double-border">
+                <ul id="services-halted"><li><h6 class="text-red">Halted</h6></li></ul>
+                <ul id="services-risk"><li><h6 class="text-orange">At Risk</h6></li></ul>
+                <ul id="services-ok"><li><h6 class="text-green">Functioning</h6></li></ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h4>About</h4>
+            <div id="about-section" class="double-border">
+                <p>Enigma is a public data startup in NYC Enigma is a public data startup in NYC Enigma is a public data startup in NYC Enigma is a public data startup in NYC Enigma is a public data startup in NYC</p>
+            </div>
+        </div>
     </div>
+
     <div class="tooltip"></div>
 
     <script type="text/javascript">
@@ -72,6 +107,16 @@
             Shutdown2013.serviceList = new Shutdown2013.ServiceList();
             Shutdown2013.statsClock = new Shutdown2013.StatsClock();
         })
+    </script>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-27585057-2', 'enigma.io');
+        ga('send', 'pageview');
     </script>
   </body>
 </html>
