@@ -1,4 +1,4 @@
-hi HN :),"Total full-time gov't employees: 2,110,221 Total; 1,878,002 Full-Time Permanent",,Accounted for (sum of on-board staff):,1976947,Furloughed:,815601,Coverage,93.68%,
+hi HN :),"Total full-time gov't employees: 2,110,221 Total; 1,878,002 Full-Time Permanent",,Accounted for (sum of on-board staff):,1979627,Furloughed:,859313,Coverage,93.81%,
 ,,,,,,,,,
 Agency,Sub-agency,On-Board Staff,Furloughed,Exempt I security,Exempt II funded,Exempt III protection (day 2),Exempt other/unknown,Exempt total,Exempt %
 Department of Agriculture,TOTAL,,,,,,,,#DIV/0!
@@ -24,8 +24,8 @@ Department of Agriculture,Office of Inspector General,,,,,,6,6,#DIV/0!
 Department of Agriculture,"Research, Education and Economics",10190,9774,2,6,408,0,416,4.08243375858685%
 Department of Agriculture,Risk Management Agency,430,,,,,,0,0%
 Department of Agriculture,Rural Development,4730,4677,0,0,53,0,53,1.12050739957717%
-Department of Commerce ,,46420,,173,420,5200,458,6251,13.4661783713916%
-Department of Defense,,718000,400000,,,,318000,318000,44.2896935933148%
+Department of Commerce ,,46420,40169,173,420,5200,458,6251,13.4661783713916%
+Department of Defense,,718000,400000,0,0,0,318000,318000,44.2896935933148%
 Department of Education,,4195,3983,0,23,23,166,212,5.05363528009535%
 Department of Energy ,,13814,9584,0,3106,1113,11,4230,30.621109019835%
 Department of Health and Human Services,,78198,40512,0,24901,12785,0,37686,48.1930484155605%
@@ -68,11 +68,10 @@ Armed Forces Retirement Home,,285,36,211,0,38,0,249,87.3684210526316%
 American Battle Monuments Commission ,,,,,,,,0,#DIV/0!
 Appalachian Regional Commission,,,,,,,,0,#DIV/0!
 Arlington National Cemetary,,,,,,,,0,#DIV/0!
-Armed Forces Retirement Homes,,,,,,,,0,#DIV/0!
 Broadcasting Board of Governors,,,,,,,,0,#DIV/0!
 Chemical Safety and Hazard Investigation Board ,,,,,,,,0,#DIV/0!
-Commodity Futures Trading Commission,,,,,,,,0,#DIV/0!
-Consumer Product Safety Commission ,,,,,,,,0,#DIV/0!
+Commodity Futures Trading Commission,,680,643,0,0,28,9,37,5.44117647058824%
+Consumer Product Safety Commission ,,540,518,0,0,22,0,22,4.07407407407407%
 Corporation for National and Community Service ,,,,,,,,0,#DIV/0!
 Council of the District of Columbia,,,,,,,,0,#DIV/0!
 Court Services and Offender Supervision Agency ,,,,,,,,0,#DIV/0!
@@ -92,11 +91,11 @@ Farm Credit System Insurance Corporation ,,,,,,,,0,#DIV/0!
 Federal Communications Commission,,1754,1716,0,6,16,16,38,2.16647662485747%
 Federal Deposit Insurance Corporation ,,121,113,0,0,0,8,8,6.61157024793388%
 Federal Election Commission,,339,335,0,0,0,4,4,1.17994100294985%
-Federal Energy Regulatory Commission ,,,,,,,,0,#DIV/0!
+Federal Energy Regulatory Commission ,,1460,1457,0,0,0,53,53,3.63013698630137%
 Federal Labor Relation Authority,,,,,,,,0,#DIV/0!
 Federal Maritime Commission ,,,,,,,,0,#DIV/0!
 Federal Mine Safety and Health Review Commission ,,,,,,,,0,#DIV/0!
-Federal Trade Commission ,,1178,,0,0,248,5,253,21.4770797962649%
+Federal Trade Commission ,,1178,925,0,0,248,5,253,21.4770797962649%
 General Services Administration  ,,,,,,,,0,#DIV/0!
 Institute of Museum and Library Services,,,,,,,,0,#DIV/0!
 Inter-American Foundation ,,,,,,,,0,#DIV/0!
@@ -106,7 +105,7 @@ International Joint Commission,,,,,,,,0,#DIV/0!
 Kennedy Center ,,,,,,,,0,#DIV/0!
 Marine Mammal Commission,,,,,,,,0,#DIV/0!
 Millenium Challenge Corporation ,,,,,,,,0,#DIV/0!
-National Aeronautics and Space Administration  ,,18250,17701,,,,549,549,3.00821917808219%
+National Aeronautics and Space Administration  ,,18250,17701,0,0,0,549,549,3.00821917808219%
 National Archives ,,3184,1932,0,0,40,1212,1252,39.321608040201%
 National Capital Planning Commission ,,,,,,,,0,#DIV/0!
 National Council on Disability,,,,,,,,0,#DIV/0!
