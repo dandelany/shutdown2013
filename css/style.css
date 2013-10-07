@@ -26,6 +26,9 @@ div#logo {
     text-decoration: none;
 }
 #logo .twitter-link a:hover {text-decoration: underline; }
+#logo img {
+    margin-left: 5px;
+}
 
 .chart {
     display: block;
