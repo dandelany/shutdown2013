@@ -40,7 +40,11 @@ abbreviations = {
     'National Science Foundation': ["Science", "NSF"],
     'National Archives': ['Archives', "NA"],
     'Department of Treasury': ["Treasury", "DOT"],
-    'Department of Education': ["Education", "Edu"]
+    'Department of Education': ["Education", "Edu"],
+    'Smithsonian Institution': ["Smithsonian", "SI"],
+    'Small Business Administration': ["SBA"],
+    'Federal Communications Commission': ["FCC"],
+    'Executive Office of the President': ["EOP"]
 }
 
 def make_totals(agencies):

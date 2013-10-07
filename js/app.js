@@ -152,12 +152,10 @@ _.extend(Shutdown2013.FurloughMap.prototype, {
         return this;
     },
     abbrevText: function(cellText) {
-        cellText
-            //.filter(function(d) { return (this.getComputedTextLength() > d.dx); })
-            .text(function(d) { return (d.abbreviations && d.abbreviations.length) ? d.abbreviations[0] : ''; })
-            .filter(function(d) { return (this.getComputedTextLength() + 6 > d.dx); })
+        cellText.text(function(d) { return (d.abbreviations && d.abbreviations.length) ? d.abbreviations[0] : ''; })
+            .filter(function(d) { return (this.getComputedTextLength() + 4 > d.dx); })
             .text(function(d) { return (d.abbreviations && d.abbreviations.length > 1) ? d.abbreviations[1] : ''; })
-            .filter(function(d) { return (this.getComputedTextLength() + 6 > d.dx); })
+            .filter(function(d) { return (this.getComputedTextLength() + 4 > d.dx); })
             .text('');
 
         return cellText
@@ -178,8 +176,6 @@ _.extend(Shutdown2013.FurloughMap.prototype, {
                 this.tip.html(tipHtml);
             }
             this.tip.position(e).show();
-//            var tipLeft = Math.max(e.pageX - 100, 20);
-//            this.tip.css({top: e.pageY - 80, left: tipLeft}).show();
         }
 
     }
