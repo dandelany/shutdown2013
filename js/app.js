@@ -46,7 +46,12 @@ _.extend(Shutdown2013.FurloughMap.prototype, {
             nodeParents = this.getParents(nodes),
             parentCell = this.defineParentCell(nodeParents),
             cell = this.defineCell(),
-            cellText = this.defineCellText(parentCell);
+            cellText = this.defineCellText(parentCell),
+            $legend = $('#furlough-map-legend');
+
+        $legend.find('.total-employees').text(this.root.value.commafy());
+        $legend.find('.total-exempt').text((this.root.value - this.root.furloughed_total).commafy());
+        $legend.find('.total-furloughed').text(this.root.furloughed_total.commafy());
 
         $('svg').on('mousemove', this.updateTip)
             .on('mouseenter', this.updateTip)
@@ -230,16 +235,16 @@ _.extend(Shutdown2013.StatsClock.prototype, {
             m = Math.floor(dT / 60) - ((d * 24 * 60) + (h * 60)),
             s = dT - ((d * 24 * 60 * 60) + (h * 60 * 60) + (m * 60)),
             foodUnpaid = Math.floor((Shutdown2013.WIC_FOOD_COST_2012 / (365.25 * 24 * 60 * 60)) * dT);
-        this.$duration.text('duration - ' + d + 'd : ' + h + 'h : ' + m + 'm : ' + s + 's');
+        this.$duration.text(d + 'd : ' + h + 'h : ' + m + 'm : ' + s + 's');
 
-        this.$food.text("WIC Food Vouchers Unpaid: $" + foodUnpaid.commafy());
+        this.$food.text('$' + foodUnpaid.commafy());
 
         if(Shutdown2013.furloughMap.root.furloughed_total) {
             var furloughed = Shutdown2013.furloughMap.root.furloughed_total,
                 avgSalary = Shutdown2013.AVG_SALARY,
                 furlSalaryPerS = (avgSalary * furloughed) / (365.25 * 24 * 60 * 60),
                 furlSalary = Math.floor(furlSalaryPerS * dT);
-            this.$unpaid.text('est. unpaid salary: $' + furlSalary.commafy());
+            this.$unpaid.text('$' + furlSalary.commafy());
         }
     }
 });

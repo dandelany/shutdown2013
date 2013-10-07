@@ -20,12 +20,31 @@
     <div id="body">
         <div id="header">
             <h1>Government Shutdown 2013</h1>
-            <h2 id="shutdown-duration">duration:</h2>
-            <h2 id="unpaid-salary">est. unpaid salary:</h2>
-            <h2 id="food-vouchers">WIC Food Vouchers Unpaid:</h2>
+
+            <!--<h2 id="shutdown-duration">duration:</h2>-->
+            <!--<h2 id="unpaid-salary">est. unpaid salary:</h2>-->
+            <!--<h2 id="food-vouchers">WIC Food Vouchers Unpaid:</h2>-->
         </div>
+        <table id="shutdown-stats"><tbody><tr>
+            <td width="33%">
+                <h2 id="shutdown-duration"></h2>
+                <h6>Duration</h6>
+            </td>
+            <td width="33%">
+                <h2 id="unpaid-salary"></h2>
+                <h6>Est. Unpaid Salary</h6>
+            </td>
+            <td width="33%">
+                <h2 id="food-vouchers"></h2>
+                <h6>WIC Food Vouchers Unpaid</h6>
+            </td>
+        </tr></tbody></table>
 
         <h2>Furloughed Employees by Department</h2>
+        <h6 id="furlough-map-legend"><span class="total-employees"></span> Total Civilian Employees,
+            <span class="text-red"><span class="total-furloughed"></span> Total Furloughed, </span>
+            <span class="text-green"><span class="total-exempt"></span> Total Exempt</span>
+        </h6>
         <div id="furlough-map-container">
             <div class="chart">
                 <div class="agency-details">
