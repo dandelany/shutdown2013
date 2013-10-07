@@ -157,6 +157,9 @@ _.extend(Shutdown2013.FurloughMap.prototype, {
             .text(function(d) { return (d.abbreviations && d.abbreviations.length) ? d.abbreviations[0] : ''; })
             .filter(function(d) { return (this.getComputedTextLength() + 6 > d.dx); })
             .text(function(d) { return (d.abbreviations && d.abbreviations.length > 1) ? d.abbreviations[1] : ''; })
+            .filter(function(d) { return (this.getComputedTextLength() + 6 > d.dx); })
+            .text('');
+
         return cellText
     },
     updateTip: function(e) {
