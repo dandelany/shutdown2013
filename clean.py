@@ -38,7 +38,9 @@ abbreviations = {
     'Department of Housing and Urban Development': ['Housing', "HUD"],
     'Securities and Exchange Commission': ['SEC'],
     'National Science Foundation': ["Science", "NSF"],
-    'National Archives': ['Archives', "NA"]
+    'National Archives': ['Archives', "NA"],
+    'Department of Treasury': ["Treasury", "DOT"],
+    'Department of Education': ["Education", "Edu"]
 }
 
 def make_totals(agencies):
