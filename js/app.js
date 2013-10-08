@@ -8,12 +8,13 @@ Shutdown2013.FurloughMap = function() {
     this.yScale = d3.scale.linear().range([0, this.height]);
 
     this.legendText = [
-        {'key': 'furloughed', 'name': "Furloughed Employees"},
-        {'key': 'exempt_a', 'name': "Furlough-Exempt: Law enforcement, health & safety"},
-        {'key': 'exempt_b', 'name': "Furlough-Exempt: Financed from available funds"},
-        {'key': 'exempt_c', 'name': "Furlough-Exempt: Protecting life and property"},
-        {'key': 'exempt_d', 'name': "Furlough-Exempt: Other/Unknown"}
+        ['furloughed', "Furloughed Employees"],
+        ['exempt_a', "Furlough-Exempt: Law enforcement, health & safety"],
+        ['exempt_b', "Furlough-Exempt: Financed from available funds"],
+        ['exempt_c', "Furlough-Exempt: Protecting life and property"],
+        ['exempt_d', "Furlough-Exempt: Other/Unknown"]
     ];
+    this.legendTextByType = _(this.legendText).object();
 
     this.treemap = d3.layout.treemap()
         //.mode('slice-dice')
@@ -86,6 +87,8 @@ _.extend(Shutdown2013.FurloughMap.prototype, {
             .enter().append('svg:g')
             .attr('class', 'cell')
             .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+            .attr("data-type", function(d) { return d.name; })
+            .attr("data-value", function(d) { return d.value; })
             .on("click", _.bind(function(d) { return this.zoom(this.node == d.parent ? this.root : d.parent); }, this))
             .on('mouseover', function(d) { d3.select(this.parentNode).classed('active', true) })
             .on('mouseout', function(d) { d3.select(this.parentNode).classed('active', false) });
@@ -112,8 +115,8 @@ _.extend(Shutdown2013.FurloughMap.prototype, {
         var $legendBottom = $('#furlough-legend-bottom');
 
         _(this.legendText).each(function(legendItem) {
-            $legendBottom.append('<span class="legend-bottom-item"><span class="swatch swatch-' + legendItem.key + '">' +
-                '</span><h6 class="' + legendItem.key +'">' + legendItem.name +'</h6></span>');
+            $legendBottom.append('<span class="legend-bottom-item"><span class="swatch swatch-' + legendItem[0] + '">' +
+                '</span><h6 class="' + legendItem[0] +'">' + legendItem[1] +'</h6></span>');
         })
     },
     getParents: function(nodes) {
@@ -152,6 +155,7 @@ _.extend(Shutdown2013.FurloughMap.prototype, {
             this.makeDetails(d, this.$details);
             this.$details.slideDown();
             this.zoomed = true;
+            this.prevTarget = undefined;
             this.tip.hide();
         } else {
             this.$details.slideUp();
@@ -183,24 +187,27 @@ _.extend(Shutdown2013.FurloughMap.prototype, {
         return cellText
     },
     updateTip: function(e) {
-        if(this.zoomed) {
-            this.tip.hide();
+        if(e.target != this.prevTarget) {
+            this.prevTarget = e.target;
+            var $target = $(e.target);
 
-        } else {
-            if(e.target != this.prevTarget) {
-                this.prevTarget = e.target;
-                var $target = $(e.target), $agency = $target.parents('g.parentCell');
-                var agencyName = $agency.find('text.fullText').text();
-                var nodeData = $agency.data();
-
+            if(this.zoomed) {
+                var $cell = $target.parents('g.cell'), nodeData = $cell.data();
+                if(nodeData && nodeData.type && this.legendTextByType[nodeData.type]) {
+                    var legendText = this.legendTextByType[nodeData.type];
+                    this.tip.html('<p>' + nodeData.value.commafy() + '</p><h6 class="' + nodeData.type +'">' + legendText + '</h6>')
+                }
+            } else {
+                var $agency = $target.parents('g.parentCell'),
+                    agencyName = $agency.find('text.fullText').text(),
+                    nodeData = $agency.data();
                 var tipHtml = ['<h3>', nodeData.agency, '</h3>',
                     '<h6 class="text-red">', Math.round(100 * (nodeData.furloughed / nodeData.staff)), '% furloughed</h6>',
                     '<h6 class="text-gray"><em>click for details</em></h6>'].join('');
                 this.tip.html(tipHtml);
             }
-            this.tip.position(e).show();
         }
-
+        this.tip.position(e).show();
     }
 
 });

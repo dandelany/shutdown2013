@@ -69,6 +69,12 @@ rect.furloughed { fill: #bb4207;}
 #furlough-legend-bottom .swatch-exempt_c { background: #5abac5; }
 #furlough-legend-bottom .swatch-exempt_d { background: #82cad8; }
 
+h6.furloughed { color: #bb4207;}
+h6.exempt_a { color: #2fa3af; }
+h6.exempt_b { color: #4daab7; }
+h6.exempt_c { color: #5abac5; }
+h6.exempt_d { color: #82cad8; }
+
 
 .parentCell.active rect {
     opacity: 1;
@@ -164,6 +170,10 @@ div.tooltip {
     box-shadow: 0px 0px 5px #888;
     text-align: center;
 }
+div.tooltip p { margin: 0px; }
+div.tooltip h6 { line-height: 20px; }
+div.tooltip h3 { margin-bottom: 5px; }
+
 div.agency-details {
     position: absolute;
     display: none;
