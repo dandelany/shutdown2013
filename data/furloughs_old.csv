@@ -1,10 +1,10 @@
-,"Total full-time gov't employees: 2,110,221 Total; 1,878,002 Full-Time Permanent",,Accounted for (sum of on-board staff):,1879093,Furloughed:,727888,Coverage,89.05%,
+hi HN :),"Total full-time gov't employees: 2,110,221 Total; 1,878,002 Full-Time Permanent",,Accounted for (sum of on-board staff):,1996229,Furloughed:,865796,Coverage,94.6%,
 ,,,,,,,,,
 Agency,Sub-agency,On-Board Staff,Furloughed,Exempt I security,Exempt II funded,Exempt III protection (day 2),Exempt other/unknown,Exempt total,Exempt %
 Department of Agriculture,TOTAL,,,,,,,,#DIV/0!
 Department of Agriculture,Office of the Secretary,,,,,,19,19,#DIV/0!
 Department of Agriculture,Agricultural Marketing Service,2696,424,0,2272,0,0,2272,84.272997032641%
-Department of Agriculture,Animal and Plant Health Inspection Service,,,0,3037,1075,29,4141,#DIV/0!
+Department of Agriculture,Animal and Plant Health Inspection Service,7000,2859,0,3037,1075,29,4141,59.1571428571428%
 Department of Agriculture,Departmental Management,,,3,0,162,0,165,#DIV/0!
 Department of Agriculture,Farm Service Agency,11809,11739,0,70,0,0,70,0.592768227622999%
 Department of Agriculture,"Food, Nutrition, and Consumer Services",1363,1219,0,34,110,0,144,10.564930300807%
@@ -24,8 +24,8 @@ Department of Agriculture,Office of Inspector General,,,,,,6,6,#DIV/0!
 Department of Agriculture,"Research, Education and Economics",10190,9774,2,6,408,0,416,4.08243375858685%
 Department of Agriculture,Risk Management Agency,430,,,,,,0,0%
 Department of Agriculture,Rural Development,4730,4677,0,0,53,0,53,1.12050739957717%
-Department of Commerce ,,46420,,173,420,5200,458,6251,13.4661783713916%
-Department of Defense,,718000,400000,,,,318000,318000,44.2896935933148%
+Department of Commerce ,,46420,40169,173,420,5200,458,6251,13.4661783713916%
+Department of Defense,,718000,400000,0,0,0,318000,318000,44.2896935933148%
 Department of Education,,4195,3983,0,23,23,166,212,5.05363528009535%
 Department of Energy ,,13814,9584,0,3106,1113,11,4230,30.621109019835%
 Department of Health and Human Services,,78198,40512,0,24901,12785,0,37686,48.1930484155605%
@@ -54,13 +54,13 @@ Department of State ,,,,,,,,0,#DIV/0!
 Department of Transportation,,55468,18481,0,8417,25458,3112,36987,66.6816903439821%
 Department of Treasury ,TOTAL,,,,,,,0,#DIV/0!
 Department of Treasury,Departmental Offices,1976,997,,779,37,163,979,49.5445344129555%
-Department of Treasury,Bureau of Fiscal Service,,,,,,,0,#DIV/0!
-Department of Treasury,The Alcohol and Tobacco Tax and Trade Bureau,,,,,,,0,#DIV/0!
-Department of Treasury,Financial Crimes Enforcement Network,,,,,,,0,#DIV/0!
-Department of Treasury,Internal Revenue Service,,,,,,,0,#DIV/0!
-Department of Treasury,"Special Inspector General, Troubled Asset Relief Program",,,,,,,0,#DIV/0!
-Department of Treasury,Treasury Inspector General for Tax Administration,,,,,,,0,#DIV/0!
-Department of Treasury,Office of Inspector General,,,,,,,0,#DIV/0!
+Department of Treasury,Bureau of Fiscal Service,1370,635,,518,58,159,735,53.6496350364964%
+Department of Treasury,The Alcohol and Tobacco Tax and Trade Bureau,483,448,0,0,17,18,35,7.2463768115942%
+Department of Treasury,Financial Crimes Enforcement Network,345,315,0,0,30,0,30,8.69565217391304%
+Department of Treasury,Internal Revenue Service,94516,85692,0,372,8328,124,8824,9.33598544161835%
+Department of Treasury,"Special Inspector General, Troubled Asset Relief Program",193,0,,193,0,0,193,100%
+Department of Treasury,Treasury Inspector General for Tax Administration,766,469,0,1,276,20,297,38.7728459530026%
+Department of Treasury,Office of Inspector General,181,154,,19,5,3,27,14.9171270718232%
 Department of Veterans Affairs,,332025,14224,,296117,,20621,316738,95.3958286273624%
 AbilityOne Program ,,,,,,,,0,#DIV/0!
 Advisory Council on Historic Preservation ,,39,33,0,0,0,6,6,15.3846153846154%
@@ -68,11 +68,10 @@ Armed Forces Retirement Home,,285,36,211,0,38,0,249,87.3684210526316%
 American Battle Monuments Commission ,,,,,,,,0,#DIV/0!
 Appalachian Regional Commission,,,,,,,,0,#DIV/0!
 Arlington National Cemetary,,,,,,,,0,#DIV/0!
-Armed Forces Retirement Homes,,,,,,,,0,#DIV/0!
 Broadcasting Board of Governors,,,,,,,,0,#DIV/0!
 Chemical Safety and Hazard Investigation Board ,,,,,,,,0,#DIV/0!
-Commodity Futures Trading Commission,,,,,,,,0,#DIV/0!
-Consumer Product Safety Commission ,,,,,,,,0,#DIV/0!
+Commodity Futures Trading Commission,,680,643,0,0,28,9,37,5.44117647058824%
+Consumer Product Safety Commission ,,540,518,0,0,22,0,22,4.07407407407407%
 Corporation for National and Community Service ,,,,,,,,0,#DIV/0!
 Council of the District of Columbia,,,,,,,,0,#DIV/0!
 Court Services and Offender Supervision Agency ,,,,,,,,0,#DIV/0!
@@ -85,18 +84,18 @@ District of Columbia,Public Defender Service ,,,157,0,0,10,167,#DIV/0!
 Election Assistance Commission,,,,,,,,0,#DIV/0!
 Environmental Protection Agency ,,16205,15134,162,296,613,0,1071,6.60907127429806%
 Equal Employment Opportunity Commission ,,,,,,,,0,#DIV/0!
-Executive Office of the President ,,,,,,,,0,#DIV/0!
+Executive Office of the President ,,1701,1265,,,,436,436,25.6319811875367%
 Export-Import Bank of the United States,,,,,,,,0,#DIV/0!
 Farm Credit Administration ,,,,,,,,0,#DIV/0!
 Farm Credit System Insurance Corporation ,,,,,,,,0,#DIV/0!
 Federal Communications Commission,,1754,1716,0,6,16,16,38,2.16647662485747%
 Federal Deposit Insurance Corporation ,,121,113,0,0,0,8,8,6.61157024793388%
 Federal Election Commission,,339,335,0,0,0,4,4,1.17994100294985%
-Federal Energy Regulatory Commission ,,,,,,,,0,#DIV/0!
+Federal Energy Regulatory Commission ,,1460,1457,0,0,0,53,53,3.63013698630137%
 Federal Labor Relation Authority,,,,,,,,0,#DIV/0!
 Federal Maritime Commission ,,,,,,,,0,#DIV/0!
 Federal Mine Safety and Health Review Commission ,,,,,,,,0,#DIV/0!
-Federal Trade Commission ,,1178,,0,0,248,5,253,21.4770797962649%
+Federal Trade Commission ,,1178,925,0,0,248,5,253,21.4770797962649%
 General Services Administration  ,,,,,,,,0,#DIV/0!
 Institute of Museum and Library Services,,,,,,,,0,#DIV/0!
 Inter-American Foundation ,,,,,,,,0,#DIV/0!
@@ -106,7 +105,7 @@ International Joint Commission,,,,,,,,0,#DIV/0!
 Kennedy Center ,,,,,,,,0,#DIV/0!
 Marine Mammal Commission,,,,,,,,0,#DIV/0!
 Millenium Challenge Corporation ,,,,,,,,0,#DIV/0!
-National Aeronautics and Space Administration  ,,18250,17701,,,,549,549,3.00821917808219%
+National Aeronautics and Space Administration  ,,18250,17701,0,0,0,549,549,3.00821917808219%
 National Archives ,,3184,1932,0,0,40,1212,1252,39.321608040201%
 National Capital Planning Commission ,,,,,,,,0,#DIV/0!
 National Council on Disability,,,,,,,,0,#DIV/0!
@@ -125,16 +124,16 @@ Overseas Private Investment Corporation,,,,,,,,0,#DIV/0!
 Peace Corps ,,1055,627,22,5,401,0,428,40.5687203791469%
 Postal Regulatory Commission ,,,,,,,,0,#DIV/0!
 Privacy and Civil Liberties Oversight Board ,,,,,,,,0,#DIV/0!
-Small Business Administration,,,,,,,,0,#DIV/0!
+Small Business Administration,,3516,2187,0,0,0,1329,1329,37.7986348122867%
 Securities and Exchange Commission,,4149,3897,147,0,105,0,252,6.07375271149675%
-Selective Service System ,,,,,,,,0,#DIV/0!
-Smithsonian Institution,,,,,,,,0,#DIV/0!
+Selective Service System ,,124,118,0,0,6,0,6,4.83870967741936%
+Smithsonian Institution,,4202,0,0,0,688,0,688,16.3731556401713%
 Social Security Administration ,,62343,18006,0,0,0,44337,44337,71.1178480342621%
 Special Inspector General for Iraq Reconstruction,,,,,,,,0,#DIV/0!
 Udall Foundation ,TOTAL,,,,,,,0,#DIV/0!
 Udall Foundation,Environmental Conflict Resolution ,,,,,,,0,#DIV/0!
-United States Access Board ,,,,,,,,0,#DIV/0!
-United States African Development Foundation,,,,,,,,0,#DIV/0!
+United States Access Board ,,29,29,0,0,0,0,0,0%
+United States African Development Foundation,,30,25,0,0,5,0,5,16.6666666666667%
 United States Agency for International Development,,,,,,,,0,#DIV/0!
 United States Commission of Fine Arts ,,,,,,,,0,#DIV/0!
 United States Holocaust Memorial Museum ,,,,,,,,0,#DIV/0!

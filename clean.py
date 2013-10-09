@@ -44,7 +44,8 @@ abbreviations = {
     'Smithsonian Institution': ["Smithsonian", "SI"],
     'Small Business Administration': ["SBA"],
     'Federal Communications Commission': ["FCC"],
-    'Executive Office of the President': ["EOP"]
+    'Executive Office of the President': ["EOP"],
+    'Department of State': ["State", "DOS"]
 }
 
 def make_totals(agencies):
