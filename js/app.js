@@ -268,12 +268,14 @@ Shutdown2013.StatsClock = function() {
     this.$unpaid = $('#unpaid-salary');
     this.$food = $('#food-vouchers')
     this.beginDate = new Date(2013, 9, 1);
-    setInterval(_.bind(this.update, this), 1000);
+    this.endDate = new Date(2013, 9, 17, 0, 30);
+    //setInterval(_.bind(this.update, this), 1000);
+    this.update();
 };
 _.extend(Shutdown2013.StatsClock.prototype, {
     update: function() {
         var now = new Date(),
-            dT = Math.floor((now - this.beginDate) / 1000),
+            dT = Math.floor((this.endDate - this.beginDate) / 1000),
             d = Math.floor(dT / (60 * 60 * 24)),
             h = Math.floor(dT / (60 * 60)) - (d * 24),
             m = Math.floor(dT / 60) - ((d * 24 * 60) + (h * 60)),
